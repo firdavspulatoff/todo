@@ -1,0 +1,11 @@
+.red{
+    background-color: rgb(100, 21, 21);
+  }
+  .yellow{
+    background-color: rgb(202, 202, 53);
+  }
+.search{
+  width: 250px;
+  /* background: #000; */
+  border-radius: 10px;
+}
