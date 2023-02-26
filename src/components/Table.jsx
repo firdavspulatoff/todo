@@ -1,14 +1,43 @@
-import React from "react";
+import React,{useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Table.css";
+import {Button,Modal} from 'react-bootstrap';
 import { setDelete, setSearch, setUpdateItems } from "../slices/eployersSlice";
 
 const Table = () => {
+  const [name, setName] = useState("");
+  const [surename, setSurename] = useState("");
+  const [status, setStatus] = useState("");
+  const [contact, setContact] = useState("");
   const [value, setValue] = React.useState("");
   const [isInSearch, setIsInSearch] = React.useState(false);
   const dispatch = useDispatch();
   const eployers = useSelector((state) => state.eployersSlice.items);
   const searchs = useSelector((state) => state.eployersSlice.searchs);
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    const editeployer = {
+      name: name,
+      surename: surename,
+      status: status,
+      contact: contact,
+    };
+
+    dispatch(
+      setUpdateItems(editeployer)
+    );
+
+    setShow(false);
+  }
+  const handleShow = (index) => {
+   setName(eployers[index].name) 
+   setSurename(eployers[index].surename) 
+   setStatus(eployers[index].status) 
+   setContact(eployers[index].contact) 
+    
+    setShow(true);
+  }
+    
 
   const deletItem = (e) => {
     dispatch(setDelete(e.target.value));
@@ -21,8 +50,12 @@ const Table = () => {
   const updateItems = () => {
     dispatch(
       setUpdateItems({
-        id: "asds",
+        name:name,
+        surename: surename,
+        status: status,
+        contact: contact,
       })
+      
     );
   };
   console.log(searchs);
@@ -58,7 +91,9 @@ const Table = () => {
                   <td>{item.status}</td>
                   <td>{item.contact}</td>
                   <td>
-                    <button className="yellow btn btn-warning ">
+                    <button
+                    onClick={()=>handleShow(index)} 
+                    className="yellow btn btn-warning ">
                       Изменить
                     </button>
                     <button
@@ -82,8 +117,12 @@ const Table = () => {
                   <td>{item.status}</td>
                   <td>{item.contact}</td>
                   <td>
-                    <button className="yellow btn btn-warning ">
+                    <button 
+                    onClick={ handleShow} 
+                    value={item.id}
+                    className="yellow btn btn-warning ">
                       Изменить
+                      
                     </button>
                     <button
                       value={item.id}
@@ -98,6 +137,58 @@ const Table = () => {
             })}
         </tbody>
       </table>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Изменить</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <form>
+      <input
+      value={name}
+        onInput={(e) => setName(e.target.value)}
+        className="form-control my-3"
+        type="text"
+        placeholder="Введите имя"
+      />
+      <input
+      value={surename}
+        onInput={(e) => setSurename(e.target.value)}
+        className="form-control my-3"
+        type="text"
+        placeholder="Введите фамилию"
+      />
+      <select
+      value={status}
+        onChange={(e) => setStatus(e.target.value)}
+        className="form-control my-3"
+      >
+        <option disabled selected>
+          Выберите направление
+        </option>
+        <option value="front-end">Front-end</option>
+        <option value="back-end">Back-end</option>
+        <option value="grafic-dizayn">Grafic Dizayn</option>
+        <option value="mobile dev">Mobile Developer</option>
+      </select>
+      <input
+      value={contact}
+        onInput={(e) => setContact(e.target.value)}
+        className="form-control my-2"
+        type="number"
+        placeholder="Введите контакт"
+      />
+      </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Закрыть
+          </Button>
+          <Button  variant="primary" onClick={(e)=> updateItems(e.target.value)}>
+            Сохранить
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
