@@ -23,6 +23,21 @@ const eployersSlice = createSlice({
       state.searchs = [];
       state.searchs.push(state.items[number]);
     },
+    setUpdateItems: (state, action) => {
+      const number = state.items.findIndex(
+        (val) => val.id === action.payload.id
+      );
+
+      const item = {
+        id: action.payload.id,
+        name: action.payload.name || state.items[number].name,
+        surename: action.payload.surename || state.items[number].surename,
+        status: action.payload.status || state.items[number].status,
+        contact: action.payload.contact || state.items[number].contact,
+      };
+      delete state.items[number];
+      if (number !== -1) state.items.push(item);
+    },
   },
 });
 
