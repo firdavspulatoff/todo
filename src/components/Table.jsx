@@ -5,19 +5,20 @@ import { setDelete, setSearch } from "../slices/eployersSlice";
 
 const Table = () => {
   const [value, setValue] = React.useState("");
+  const [isInSearch, setIsInSearch] = React.useState(false);
   const dispatch = useDispatch();
   const eployers = useSelector((state) => state.eployersSlice.items);
-  const searchs = useSelector((state) => state.eployersSlice.items);
-  console.log(searchs);
+  const searchs = useSelector((state) => state.eployersSlice.searchs);
+
   const deletItem = (e) => {
     dispatch(setDelete(e.target.value));
   };
 
   const search = () => {
     dispatch(setSearch({ name: value }));
-    console.log("saasdsa");
+    setIsInSearch(true);
   };
-
+  console.log(searchs);
   return (
     <div>
       <input
@@ -28,7 +29,6 @@ const Table = () => {
       />
       <button onClick={search}>0</button>
 
-     
       <table className="table">
         <thead>
           <tr key="">
@@ -41,48 +41,54 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {searchs? searchs.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.surename}</td>
-                <td>{item.status}</td>
-                <td>{item.contact}</td>
-                <td>
-                  <button className="yellow btn btn-warning ">Изменить</button>
-                  <button
-                    value={item.id}
-                    onClick={deletItem}
-                    className="red btn btn-danger"
-                  >
-                    Удалить
-                  </button>
-                </td>
-              </tr>
-            );
-          })
-         : eployers.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.surename}</td>
-                <td>{item.status}</td>
-                <td>{item.contact}</td>
-                <td>
-                  <button className="yellow btn btn-warning ">Изменить</button>
-                  <button
-                    value={item.id}
-                    onClick={deletItem}
-                    className="red btn btn-danger"
-                  >
-                    Удалить
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          {!isInSearch &&
+            eployers.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.surename}</td>
+                  <td>{item.status}</td>
+                  <td>{item.contact}</td>
+                  <td>
+                    <button className="yellow btn btn-warning ">
+                      Изменить
+                    </button>
+                    <button
+                      value={item.id}
+                      onClick={deletItem}
+                      className="red btn btn-danger"
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          {isInSearch &&
+            searchs.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.surename}</td>
+                  <td>{item.status}</td>
+                  <td>{item.contact}</td>
+                  <td>
+                    <button className="yellow btn btn-warning ">
+                      Изменить
+                    </button>
+                    <button
+                      value={item.id}
+                      onClick={deletItem}
+                      className="red btn btn-danger"
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
