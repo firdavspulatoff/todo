@@ -41,5 +41,6 @@ const eployersSlice = createSlice({
   },
 });
 
-export const { setItems, setDelete, setSearch } = eployersSlice.actions;
+export const { setItems, setDelete, setSearch, setUpdateItems } =
+  eployersSlice.actions;
 export default eployersSlice.reducer;

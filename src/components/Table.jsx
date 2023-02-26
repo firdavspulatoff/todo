@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Table.css";
-import { setDelete, setSearch } from "../slices/eployersSlice";
+import { setDelete, setSearch, setUpdateItems } from "../slices/eployersSlice";
 
 const Table = () => {
   const [value, setValue] = React.useState("");
@@ -17,6 +17,13 @@ const Table = () => {
   const search = () => {
     dispatch(setSearch({ name: value }));
     setIsInSearch(true);
+  };
+  const updateItems = () => {
+    dispatch(
+      setUpdateItems({
+        id: "asds",
+      })
+    );
   };
   console.log(searchs);
   return (
@@ -68,7 +75,7 @@ const Table = () => {
           {isInSearch &&
             searchs.map((item, index) => {
               return (
-                <tr key={index}>
+                <tr key={item.id}>
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
                   <td>{item.surename}</td>
