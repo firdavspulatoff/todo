@@ -13,17 +13,14 @@ const eployersSlice = createSlice({
       state.items.push(action.payload);
     },
     setDelete: (state, action) => {
-      // state.items.map((val)=>{
-      //   if(val.id!== action.payload){
-      //     return val
-      //   }
-      // })
+      
       state.items = state.items.filter((val) => val.id !== action.payload);
     },
     setSearch: (state, action) => {
       const number = state.items.findIndex(
         (val) => val.name === action.payload.name
       );
+      state.searchs=[]
       state.searchs.push(state.items[number]);
     },
   },
