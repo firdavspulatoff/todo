@@ -35,8 +35,8 @@ const eployersSlice = createSlice({
         status: action.payload.status || state.items[number].status,
         contact: action.payload.contact || state.items[number].contact,
       };
-      delete state.items[number];
-      if (number !== -1) state.items.push(item);
+
+      if (number !== -1) state.items.splice(number, 1, item);
     },
   },
 });
